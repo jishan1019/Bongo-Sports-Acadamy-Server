@@ -28,7 +28,15 @@ async function run() {
     // Send a ping to confirm a successful connection
     await client.db("bongo_sports_db").command({ ping: 1 });
 
+    // Db Collection Code Here---------------------
+    const db = client.db("bongo_sports_db");
+    const allClasses = db.collection("classes");
+
     //All Get Oparation Code Here--------------
+    app.get("/classes", async (req, res) => {
+      const result = await allClasses.find().toArray();
+      res.send(result);
+    });
 
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
