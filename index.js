@@ -31,12 +31,20 @@ async function run() {
     // Db Collection Code Here---------------------
     const db = client.db("bongo_sports_db");
     const allClasses = db.collection("classes");
+    const instractorCollection = db.collection("instractor");
 
     //All Get Oparation Code Here--------------
     app.get("/classes", async (req, res) => {
       const result = await allClasses.find().toArray();
       res.send(result);
     });
+
+    app.get("/instractor", async (req, res) => {
+      const result = await instractorCollection.find().toArray();
+      res.send(result);
+    });
+
+    // All Post Oparation Code Here---------------------
 
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
