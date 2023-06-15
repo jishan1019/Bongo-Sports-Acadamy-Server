@@ -32,6 +32,7 @@ async function run() {
     const db = client.db("bongo_sports_db");
     const allClasses = db.collection("classes");
     const instractorCollection = db.collection("instractor");
+    const facilitiesCollection = db.collection("facilities");
 
     //All Get Oparation Code Here--------------
     app.get("/classes", async (req, res) => {
@@ -41,6 +42,11 @@ async function run() {
 
     app.get("/instractor", async (req, res) => {
       const result = await instractorCollection.find().toArray();
+      res.send(result);
+    });
+
+    app.get("/facilities", async (req, res) => {
+      const result = await facilitiesCollection.find().toArray();
       res.send(result);
     });
 
