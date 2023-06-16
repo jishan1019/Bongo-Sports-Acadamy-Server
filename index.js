@@ -36,7 +36,10 @@ async function run() {
 
     //All Get Oparation Code Here--------------
     app.get("/classes", async (req, res) => {
-      const result = await allClasses.find().toArray();
+      const result = await allClasses
+        .find()
+        .sort({ enrollStudents: -1 })
+        .toArray();
       res.send(result);
     });
 
