@@ -44,7 +44,10 @@ async function run() {
     });
 
     app.get("/instractor", async (req, res) => {
-      const result = await instractorCollection.find().toArray();
+      const result = await instractorCollection
+        .find()
+        .short({ number_of_classes: -1 })
+        .toArray();
       res.send(result);
     });
 
