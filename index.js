@@ -62,6 +62,12 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/users/:email", async (req, res) => {
+      const email = req.params.email;
+      const result = await userCollection.findOne({ email: email });
+      res.send(result);
+    });
+
     // All Post Oparation Code Here---------------------
     app.post("/users", async (req, res) => {
       const user = req.body;
