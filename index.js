@@ -57,6 +57,11 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/users", async (req, res) => {
+      const result = await userCollection.find().toArray();
+      res.send(result);
+    });
+
     // All Post Oparation Code Here---------------------
     app.post("/users", async (req, res) => {
       const user = req.body;
