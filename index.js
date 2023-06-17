@@ -71,7 +71,7 @@ async function run() {
 
     app.get("/cart/:email", async (req, res) => {
       const email = req.params.email;
-      const result = await cartCollection.findOne({ email: email });
+      const result = await cartCollection.find({ email: email }).toArray();
       res.send(result);
     });
 
@@ -91,6 +91,14 @@ async function run() {
       const cartitem = req.body;
       console.log(cartitem);
       const result = await cartCollection.insertOne(cartitem);
+      res.send(result);
+    });
+
+    // All Delete Oparation Code Here---------------------
+    app.delete("/cart/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await cartCollection.deleteOne(query);
       res.send(result);
     });
 
