@@ -34,6 +34,7 @@ async function run() {
     const instractorCollection = db.collection("instractor");
     const facilitiesCollection = db.collection("facilities");
     const userCollection = db.collection("users");
+    const cartCollection = db.collection("cart");
 
     //All Get Oparation Code Here--------------
     app.get("/classes", async (req, res) => {
@@ -77,6 +78,13 @@ async function run() {
         return res.send({ massage: "User Alrady Exist" });
       }
       const result = await userCollection.insertOne(user);
+      res.send(result);
+    });
+
+    app.post("/cart", async (req, res) => {
+      const cartitem = req.body;
+      console.log(cartitem);
+      const result = await userCollection.insertOne(cartitem);
       res.send(result);
     });
 
