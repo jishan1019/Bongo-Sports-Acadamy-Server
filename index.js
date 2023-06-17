@@ -37,39 +37,51 @@ async function run() {
     const cartCollection = db.collection("cart");
 
     //All Get Oparation Code Here--------------
+    // app.get("/classes", async (req, res) => {
+    //   const result = await allClasses
+    //     .aggregate([
+    //       {
+    //         $project: {
+    //           enrollStudents: { $toInt: "$enrollStudents" },
+    //         },
+    //       },
+    //       {
+    //         $sort: { enrollStudents: -1 },
+    //       },
+    //     ])
+    //     .toArray();
+
+    //   res.send(result);
+    // });
+
     app.get("/classes", async (req, res) => {
-      const result = await allClasses
-        .aggregate([
-          {
-            $project: {
-              enrollStudents: { $toInt: "$enrollStudents" },
-            },
-          },
-          {
-            $sort: { enrollStudents: -1 },
-          },
-        ])
-        .toArray();
-
+      const result = await allClasses.find().toArray();
+      console.log(result);
       res.send(result);
     });
 
-    app.get("/instructor", async (req, res) => {
-      const result = await instractorCollection
-        .aggregate([
-          {
-            $project: {
-              number_of_classes: { $toInt: "$number_of_classes" },
-            },
-          },
-          {
-            $sort: { number_of_classes: -1 },
-          },
-        ])
-        .toArray();
-
+    app.get("/instractor", async (req, res) => {
+      const result = await instractorCollection.find().toArray();
+      console.log(result);
       res.send(result);
     });
+
+    // app.get("/instractor", async (req, res) => {
+    //   const result = await instractorCollection
+    //     .aggregate([
+    //       {
+    //         $project: {
+    //           number_of_classes: { $toInt: "$number_of_classes" },
+    //         },
+    //       },
+    //       {
+    //         $sort: { number_of_classes: -1 },
+    //       },
+    //     ])
+    //     .toArray();
+
+    //   res.send(result);
+    // });
 
     app.get("/facilities", async (req, res) => {
       const result = await facilitiesCollection.find().toArray();
@@ -90,6 +102,12 @@ async function run() {
     app.get("/cart/:email", async (req, res) => {
       const email = req.params.email;
       const result = await cartCollection.find({ email: email }).toArray();
+      res.send(result);
+    });
+
+    app.get("/classes/:email", async (req, res) => {
+      const email = req.params.email;
+      const result = await allClasses.find({ email: email }).toArray();
       res.send(result);
     });
 
@@ -115,6 +133,37 @@ async function run() {
       const classItem = req.body;
       console.log(classItem);
       const result = await allClasses.insertOne(classItem);
+      res.send(result);
+    });
+
+    // All Update Code Here--------------------
+    app.put("/users/:email", async (req, res) => {
+      const userEmail = req.params.email;
+      const updatedData = req.body; // Assuming the updated data is sent in the request body
+
+      try {
+        const result = await userCollection.updateOne(
+          { email: userEmail },
+          { $set: updatedData }
+        );
+        res.send(result);
+      } catch (error) {
+        console.error("Error updating document:", error);
+        res.status(500).send("Error updating document");
+      }
+    });
+
+    app.put("/users/:email", async (req, res) => {
+      const email = req.params.email;
+      const body = req.body;
+      const filter = { email: email };
+      const updateDoc = {
+        $set: {
+          role: body.role,
+          status: body.status,
+        },
+      };
+      const result = await userCollection.updateOne(filter, updateDoc);
       res.send(result);
     });
 
