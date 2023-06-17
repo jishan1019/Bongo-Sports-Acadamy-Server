@@ -26,7 +26,7 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
     // Send a ping to confirm a successful connection
-    await client.db("bongo_sports_db").command({ ping: 1 });
+    // await client.db("bongo_sports_db").command({ ping: 1 });
 
     // Db Collection Code Here---------------------
     const db = client.db("bongo_sports_db");
@@ -89,8 +89,14 @@ async function run() {
 
     app.post("/cart", async (req, res) => {
       const cartitem = req.body;
-      console.log(cartitem);
       const result = await cartCollection.insertOne(cartitem);
+      res.send(result);
+    });
+
+    app.post("/classes", async (req, res) => {
+      const classItem = req.body;
+      console.log(classItem);
+      const result = await allClasses.insertOne(classItem);
       res.send(result);
     });
 
