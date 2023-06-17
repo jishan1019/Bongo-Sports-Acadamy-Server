@@ -39,17 +39,35 @@ async function run() {
     //All Get Oparation Code Here--------------
     app.get("/classes", async (req, res) => {
       const result = await allClasses
-        .find()
-        .sort({ enrollStudents: -1 })
+        .aggregate([
+          {
+            $project: {
+              enrollStudents: { $toInt: "$enrollStudents" },
+            },
+          },
+          {
+            $sort: { enrollStudents: -1 },
+          },
+        ])
         .toArray();
+
       res.send(result);
     });
 
-    app.get("/instractor", async (req, res) => {
+    app.get("/instructor", async (req, res) => {
       const result = await instractorCollection
-        .find()
-        .sort({ number_of_classes: -1 })
+        .aggregate([
+          {
+            $project: {
+              number_of_classes: { $toInt: "$number_of_classes" },
+            },
+          },
+          {
+            $sort: { number_of_classes: -1 },
+          },
+        ])
         .toArray();
+
       res.send(result);
     });
 
