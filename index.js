@@ -69,6 +69,12 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/cart/:email", async (req, res) => {
+      const email = req.params.email;
+      const result = await cartCollection.findOne({ email: email });
+      res.send(result);
+    });
+
     // All Post Oparation Code Here---------------------
     app.post("/users", async (req, res) => {
       const user = req.body;
@@ -84,7 +90,7 @@ async function run() {
     app.post("/cart", async (req, res) => {
       const cartitem = req.body;
       console.log(cartitem);
-      const result = await userCollection.insertOne(cartitem);
+      const result = await cartCollection.insertOne(cartitem);
       res.send(result);
     });
 
